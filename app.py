@@ -42,10 +42,16 @@ st.markdown("""
         border-color: #FFC107 !important; /* Borda amarela ao passar o mouse */
     }
 
-    /* Outras classes utilitárias */
-    .success-text {color: #4CAF50;}
-    .warning-text {color: #FFC107;}
-    .danger-text {color: #FF5252;}
+    /* Utilitários */
+    .highlight-roi {
+        background-color: #d4edda;
+        color: #155724;
+        padding: 10px;
+        border-radius: 5px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 10px;
+    }
     div[data-testid="stMetricValue"] {font-size: 3rem;}
     </style>
 """, unsafe_allow_html=True)
@@ -53,8 +59,6 @@ st.markdown("""
 # --- GERENCIAMENTO DE ESTADO ---
 if 'start_time' not in st.session_state:
     st.session_state.start_time = None
-if 'lead_data' not in st.session_state:
-    st.session_state.lead_data = {}
 
 # --- SIDEBAR (HUD DE CONTROLE) ---
 with st.sidebar:
@@ -68,11 +72,9 @@ with st.sidebar:
             st.rerun()
     else:
         elapsed = int((time.time() - st.session_state.start_time) / 60)
-        
-        # Lógica de Cores do Timer
         timer_color = "normal"
-        if elapsed > 20: timer_color = "off" # Vermelho/Alerta
-        elif elapsed > 15: timer_color = "inverse" # Amarelo
+        if elapsed > 20: timer_color = "off"
+        elif elapsed > 15: timer_color = "inverse"
         
         st.metric(label="Tempo Decorrido", value=f"{elapsed} min", delta="Meta: 50m", delta_color=timer_color)
         
@@ -90,7 +92,6 @@ with st.sidebar:
         **D**ominar a Situação
         
         *Cliente enrolando?* 👉 "Parece que não é seu momento."
-        
         *Cliente dominando?* 👉 Interrompa com uma pergunta.
         """)
 
@@ -142,14 +143,48 @@ with st.expander("3️⃣ D.I. - O PACTO (DECISÃO IMEDIATA)", expanded=True):
         if not autonomia:
             st.error("⛔ PARE! Se ele não decide, remarque com o sócio/esposa.")
 
-# Passo 4
-with st.expander("4️⃣ O SHOW (GERAR DESEJO)", expanded=False):
-    c1, c2 = st.columns([1, 2])
-    with c1:
-        st.checkbox("Perguntei 'O que você sente'?")
-        st.metric("Temperatura", "🔥 Quente" if st.checkbox("Verbalizou 'Eu preciso'?") else "❄️ Frio")
-    with c2:
-        interesse = st.text_input("Pilar de Maior Interesse", placeholder="Ex: A parte de gestão de equipe")
+# Passo 4 - ATUALIZADO COM OS PILARES
+with st.expander("4️⃣ O SHOW (GERAR DESEJO) | O PROGRAMA", expanded=False):
+    # Destaque do ROI e Formato
+    st.markdown('<div class="highlight-roi">💎 FOCO TOTAL NO ROI (Return on Investment)</div>', unsafe_allow_html=True)
+    
+    col_main, col_entrega = st.columns([1, 1])
+    
+    with col_main:
+        st.markdown("### 🏛️ Os 4 Pilares Base")
+        st.checkbox("1. Posicionamento")
+        st.checkbox("2. Modelo de Negócio")
+        st.checkbox("3. Canais de Venda (Tráfego/Ativa)")
+        st.checkbox("4. Liderança (Coordenação de Time)")
+    
+    with col_entrega:
+        st.markdown("### 🚀 Formato da Entrega")
+        st.info("Começa **INDIVIDUAL** (Mapeamento História) ➡️ depois **GRUPO**")
+        st.caption("🔓 **Anderson:** É Acessível (tira dúvidas), mas não disponível.")
+
+    st.markdown("---")
+    st.markdown("### 🏆 Diferenciais Premium (High Ticket)")
+    
+    c_mls, c_livro = st.columns(2)
+    with c_mls:
+        st.markdown("**5. MLS (Mentoria League Society)**")
+        st.checkbox("Falei do Título Ouro?")
+        st.checkbox("Encontros Presenciais")
+        st.caption("💰 *Pode revender o título por 50% após 1 ano.*")
+        
+    with c_livro:
+        st.markdown("**6. Livro (Buzz Editora)**")
+        st.checkbox("Ghostwriter Incluso")
+        st.checkbox("Distribuição Nacional")
+        st.caption("✍️ *Coordenação e roteiro do Anderson.*")
+
+    st.markdown("---")
+    # Termômetro
+    c_temp, c_obs = st.columns([1, 2])
+    with c_temp:
+        st.metric("Temperatura", "🔥 Quente" if st.checkbox("Verbalizou 'EU PRECISO'?") else "❄️ Frio")
+    with c_obs:
+        st.text_input("Qual pilar brilhou mais o olho dele?", placeholder="Ex: O Livro, a revenda do título...")
 
 # Passo 5
 with st.expander("5️⃣ FECHAMENTO (A HORA DA VERDADE) 💰", expanded=True):
