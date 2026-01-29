@@ -11,11 +11,38 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# --- CSS CUSTOMIZADO (Visual HUD) ---
+# --- CSS CUSTOMIZADO (Visual HUD & Títulos Destacados) ---
 st.markdown("""
     <style>
-    .stExpander {border: 1px solid #444;}
-    .big-font {font-size:20px !important; font-weight: bold;}
+    /* Estilo Geral dos Expanders */
+    .stExpander {
+        border: none !important;
+        margin-bottom: 1rem;
+    }
+    
+    /* Destacar os Títulos das Etapas (Cabeçalho do Expander) */
+    div[data-testid="stExpander"] details summary p {
+        font-size: 1.3rem !important;
+        font-weight: 800 !important;
+        color: #ffffff !important;
+        text-transform: uppercase;
+    }
+    
+    /* Fundo do cabeçalho do Expander para dar contraste */
+    div[data-testid="stExpander"] details summary {
+        background-color: #2E2E2E !important; /* Cinza escuro/destaque */
+        border: 1px solid #555;
+        border-radius: 8px;
+        padding: 15px !important;
+    }
+    
+    /* Hover no cabeçalho */
+    div[data-testid="stExpander"] details summary:hover {
+        background-color: #444 !important;
+        border-color: #FFC107 !important; /* Borda amarela ao passar o mouse */
+    }
+
+    /* Outras classes utilitárias */
     .success-text {color: #4CAF50;}
     .warning-text {color: #FFC107;}
     .danger-text {color: #FF5252;}
@@ -75,9 +102,10 @@ with st.sidebar:
 # --- ÁREA PRINCIPAL ---
 
 st.title("Mapa de Voo Cirúrgico ✈️")
+st.markdown("---")
 
 # Passo 1
-with st.expander("1. APRESENTAÇÃO (Autoridade) | Meta: 5 min", expanded=True):
+with st.expander("1️⃣ APRESENTAÇÃO (AUTORIDADE) | 5 min", expanded=True):
     c1, c2, c3 = st.columns([1, 1, 2])
     with c1:
         st.checkbox("Dei a 'Carteirada'?", help="Apresentou-se como Diretor/Fundador?")
@@ -88,7 +116,7 @@ with st.expander("1. APRESENTAÇÃO (Autoridade) | Meta: 5 min", expanded=True):
         st.text_area("Notas Iniciais / Vibe", height=70, key="step1_notes")
 
 # Passo 2
-with st.expander("2. CONEXÃO (A Cirurgia) | Meta: 15-20 min", expanded=True):
+with st.expander("2️⃣ CONEXÃO (A CIRURGIA) | 15-20 min", expanded=True):
     st.info("💡 **Lembrete:** Corte histórias longas. Ache a dor raiz. Use o silêncio.")
     
     c1, c2 = st.columns([1, 2])
@@ -104,8 +132,8 @@ with st.expander("2. CONEXÃO (A Cirurgia) | Meta: 15-20 min", expanded=True):
                     height=70, key="step2_hooks")
 
 # Passo 3
-with st.expander("3. D.I. - O PACTO (Decisão Imediata)", expanded=True):
-    st.markdown("🗣️ *Script: 'No final, SIM ou NÃO. Sem vou pensar. Posso contar com sua objetividade?'*")
+with st.expander("3️⃣ D.I. - O PACTO (DECISÃO IMEDIATA)", expanded=True):
+    st.markdown("#### 🗣️ *Script: 'No final, SIM ou NÃO. Sem vou pensar. Posso contar com sua objetividade?'*")
     c1, c2 = st.columns(2)
     with c1:
         di_check = st.checkbox("✅ Cliente concordou com o combinado?")
@@ -115,7 +143,7 @@ with st.expander("3. D.I. - O PACTO (Decisão Imediata)", expanded=True):
             st.error("⛔ PARE! Se ele não decide, remarque com o sócio/esposa.")
 
 # Passo 4
-with st.expander("4. O SHOW (Gerar Desejo)", expanded=False):
+with st.expander("4️⃣ O SHOW (GERAR DESEJO)", expanded=False):
     c1, c2 = st.columns([1, 2])
     with c1:
         st.checkbox("Perguntei 'O que você sente'?")
@@ -124,7 +152,7 @@ with st.expander("4. O SHOW (Gerar Desejo)", expanded=False):
         interesse = st.text_input("Pilar de Maior Interesse", placeholder="Ex: A parte de gestão de equipe")
 
 # Passo 5
-with st.expander("5. FECHAMENTO (A Hora da Verdade) 💰", expanded=True):
+with st.expander("5️⃣ FECHAMENTO (A HORA DA VERDADE) 💰", expanded=True):
     st.warning("🧠 **MINDSET SND:** Se ele hesitar, ameace retirar a vaga.")
     
     c1, c2, c3 = st.columns([1, 1, 1])
@@ -145,7 +173,7 @@ with st.expander("5. FECHAMENTO (A Hora da Verdade) 💰", expanded=True):
         st.success("🎉 VENDA TRAVADA! PARABÉNS!")
 
 # Passo 6 & 7
-with st.expander("6. ONBOARDING & 7. INDICAÇÃO", expanded=False):
+with st.expander("6️⃣ ONBOARDING & 7️⃣ INDICAÇÃO", expanded=False):
     c1, c2 = st.columns(2)
     with c1:
         st.date_input("Data do Onboarding (Amanhã)", datetime.now())
