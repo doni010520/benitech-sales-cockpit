@@ -9,10 +9,10 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 # Instala dependências do sistema necessárias
+# Removido software-properties-common que estava causando erro no build
 RUN apt-get update && apt-get install -y \
     build-essential \
     curl \
-    software-properties-common \
     && rm -rf /var/lib/apt/lists/*
 
 # Copia o requirements primeiro (para cache do Docker ser eficiente)
